@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>Node.js & MongoDB</title>
+    </head>
+    <body>
+
+        <h3>Demo on how to save a record on MongoDB using Node.js</h3>
+
+        <input type="text" name="title" id="title" placeholder="title">
+        <input type="text" name="body" id="body" placeholder="body">
+        <input type="submit" id="submit">
+
+        <ul id="list"></ul>
+
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost');
+
+            socket.on('new_post', function (data) {
+                console.log(data);
+                $('#list').append('<p>Title: ' + data.title + ' Body: ' + data.body + '</p>');
+            });
+
+            $('#submit').click(function() {
+                console.log('submit clicked!');
+                socket.emit('submit', { title: $('#title').val(), body: $('#body').val() });
+            });
+        </script>
+
+    </body>
+</html>
+
+
